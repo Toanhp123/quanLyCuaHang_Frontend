@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { SubmitForm } from "../../components";
 import { InputForm, Button } from "../../components";
+import { register } from "./service";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Register() {
     const [add, setAdd] = useState("");
@@ -15,7 +18,9 @@ function Register() {
     const [firstName, setFirstName] = useState("");
     const [err, setErr] = useState("");
 
-    const handleRegister = (e, force = false) => {
+    const user = useSelector((state) => state.auth.user);
+
+    const handleRegister = async (e, force = false) => {
         e.preventDefault();
 
         if (!force && step < 3) {
@@ -29,17 +34,25 @@ function Register() {
         }
 
         const user = {
-            username,
-            email,
-            firstName,
-            lastName,
-            add,
-            birth,
-            phone,
-            pass,
+            username: username,
+            password: pass,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            address: add,
+            birthday: birth,
+            phoneNumber: phone,
         };
 
-        console.log("Register form submitted: ", user);
+        try {
+            console.log(user);
+
+            const res = await register(user);
+
+            console.log("Đăng ký thành công:", res.data);
+        } catch (err) {
+            console.error("Lỗi đăng ký:", err.response?.data || err.message);
+        }
     };
 
     const handleNextStep = () => {
@@ -59,6 +72,8 @@ function Register() {
             <h1 className="mb-4 flex justify-center text-2xl font-bold">
                 Create an account
             </h1>
+
+            <p>{user.id}</p>
 
             <div className="flex items-center gap-3 px-4">
                 <div
@@ -211,9 +226,9 @@ function Register() {
 
             <p className="flex justify-center gap-2 text-gray-400">
                 Already Have An Account?
-                <a href="/login" className="text-blue-600">
+                <Link to="/login" className="text-blue-600">
                     Sign In
-                </a>
+                </Link>
             </p>
 
             <div className="flex items-center gap-2 text-gray-400">

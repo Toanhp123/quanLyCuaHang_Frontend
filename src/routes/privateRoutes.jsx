@@ -1,12 +1,9 @@
-import { Route } from 'react-router-dom';
-
-import Home from '../pages/Home';
-import Profile from '../pages/Profile';
-import RequireAuth from '../components/RequireAuth';
+import { Route } from "react-router-dom";
+import { Profile } from "../pages";
+import { RequireAuth } from "../components";
 
 const privateRoutes = (
     <Route element={<RequireAuth />}>
-        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
     </Route>
 );

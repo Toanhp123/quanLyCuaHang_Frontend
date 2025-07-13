@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-function requireAuth() {
-    const isLoggedIn = !!localStorage.getItem("ACCESS_TOKEN"); // hoặc từ Redux, Context
+function RequireAuth() {
+    const user = useSelector((state) => state.auth.user);
 
-    return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
+    return user.id !== null ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
-export default requireAuth;
+export default RequireAuth;

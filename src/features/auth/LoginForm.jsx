@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { login } from "./authAPI";
+import { login } from "./service";
 import { SubmitForm } from "../../components";
 import { Button, InputForm } from "../../components";
+import { setUser } from "./authSlice";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -12,8 +18,11 @@ function LoginForm() {
 
         try {
             const res = await login(username, password);
+            dispatch(setUser(res.data.data));
 
-            console.log("Đăng nhập thành công:", res.data);
+            console.log("Đăng nhập thành công");
+
+            navigate("/profile", { replace: true });
         } catch (err) {
             console.error("Lỗi đăng nhập:", err.response?.data || err.message);
         }
@@ -44,9 +53,9 @@ function LoginForm() {
 
             <p className="flex justify-center gap-2 text-gray-400">
                 Don't Have An Account?
-                <a href="/register" className="text-blue-600">
+                <Link to="/register" replace className="text-blue-600">
                     Sign Up
-                </a>
+                </Link>
             </p>
 
             <div className="flex items-center gap-2 text-gray-400">

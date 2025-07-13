@@ -4,7 +4,7 @@ import AppRoutes from "./routes";
 
 function App() {
     return (
-        <div className="box-border">
+        <div>
             <AppRoutes />
         </div>
     );

@@ -1,12 +1,12 @@
-import { Route } from 'react-router-dom';
+import { Route } from "react-router-dom";
+import { Home, Login, Register } from "../pages";
 
-import Login from '../pages/Login';
-import Register from '../pages/Register';
 
 const publicRoutes = (
     <>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
     </>
 );
 
